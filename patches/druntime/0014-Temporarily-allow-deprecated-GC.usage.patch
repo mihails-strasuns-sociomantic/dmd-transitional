@@ -1,7 +1,7 @@
-From 414f58330ef16261553481e14283c167aa4f5e0a Mon Sep 17 00:00:00 2001
+From ba2cf5ca97e5fc395675989849873b1506f69373 Mon Sep 17 00:00:00 2001
 From: Mihails Strasuns <mihails.strasuns.contractor@sociomantic.com>
 Date: Tue, 28 Feb 2017 15:28:15 +0100
-Subject: [PATCH 14/19] Temporarily allow deprecated GC.usage
+Subject: [PATCH 14/21] Temporarily allow deprecated GC.usage
 
 Matches old API in D1 runtime
 ---
@@ -9,7 +9,7 @@ Matches old API in D1 runtime
  1 file changed, 8 insertions(+)
 
 diff --git a/src/core/memory.d b/src/core/memory.d
-index 9996a74..aaa7566 100644
+index 9996a740..aaa75662 100644
 --- a/src/core/memory.d
 +++ b/src/core/memory.d
 @@ -678,6 +678,14 @@ struct GC
@@ -28,5 +28,5 @@ index 9996a74..aaa7566 100644
       * Adds an internal root pointing to the GC memory block referenced by p.
       * As a result, the block referenced by p itself and any blocks accessible
 -- 
-2.14.1
+2.15.0
 

@@ -1,0 +1,64 @@
+From 6c94ee4a647303455bc1d83e3ec051f96f5ff227 Mon Sep 17 00:00:00 2001
+From: Mihails Strasuns <mihails.strasuns.contractor@sociomantic.com>
+Date: Mon, 20 Nov 2017 16:10:30 +0200
+Subject: [PATCH 21/21] Hack
+
+---
+ src/rt/profilegc.d | 23 ++++++++---------------
+ 1 file changed, 8 insertions(+), 15 deletions(-)
+
+diff --git a/src/rt/profilegc.d b/src/rt/profilegc.d
+index f7508088..b0a3bb1b 100644
+--- a/src/rt/profilegc.d
++++ b/src/rt/profilegc.d
+@@ -29,23 +29,9 @@ Entry[string] newCounts;
+ __gshared
+ {
+     Entry[string] globalNewCounts;
+-    string logfilename = "profilegc.log";
+-}
+-
+-/****
+- * Set file name for output.
+- * A file name of "" means write results to stdout.
+- * Params:
+- *      name = file name
+- */
+-
+-extern (C) void profilegc_setlogfilename(string name)
+-{
+-    logfilename = name;
+ }
+ 
+ 
+-
+ public void accumulate(string file, uint line, string funcname, string type, size_t sz)
+ {
+     char[3 * line.sizeof + 1] buf;
+@@ -84,6 +70,11 @@ public void accumulate(string file, uint line, string funcname, string type, siz
+ 
+ // Merge thread local newCounts into globalNewCounts
+ static ~this()
++{
++    merge();
++}
++
++void merge()
+ {
+     if (newCounts.length)
+     {
+@@ -109,8 +100,10 @@ static ~this()
+ }
+ 
+ // Write report to stderr
+-shared static ~this()
++extern(C) void write_profilegc_report ( in char[] logfilename )
+ {
++    merge();
++
+     static struct Result
+     {
+         string name;
+-- 
+2.15.0
+
